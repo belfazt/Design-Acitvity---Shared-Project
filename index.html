@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap 101 Template</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/styles.css" rel="stylesheet" media="screen">
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+
+      google.maps.visualRefresh = true;
+      var map;
+      var visibleSideBar = true;
+
+      function initialize() {
+
+          var mapOptions = {
+             zoom: 8,
+             center: new google.maps.LatLng(20.676389 , -103.346111),
+             mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+              var contentString = '<div id="reporte" class="clearfix"><h6>Nombre del reporte</h6><input type="text"><h6>Descripción:</h6><textarea></textarea> <button class="btn">Send</button></div>';
+              var infowindow = new google.maps.InfoWindow({
+                  content: contentString,
+                  width: 600,
+                  maxWidth: 800
+              });
+
+              var marker = new google.maps.Marker({
+                map: map,
+                // position: e.latLng,
+                draggable: true
+              });
+
+              google.maps.event.addListener(map, 'click', function(e) {
+
+                  // var marker = new google.maps.Marker({
+                  //   map: map,
+                  //   position: e.latLng,
+                  //   draggable: false
+                  // });
+
+                  marker.setPosition(e.latLng);
+
+                  infowindow.open(map, marker);
+
+                  // posicion
+                  // var x = e.pixel.x;
+                  // var y = e.pixel.y;
+
+                  // // añadir cuadro
+                  // var cuadro = document.createElement('div');
+                  // cuadro.id = "reporte";
+
+                  // cuadro.innerHTML = '<h2>Nombre del reporte</h2><input type="text"><h2>Descripción:</h2><textarea></textarea>';
+
+                  // cuadro.style.left = x + 'px';
+                  // cuadro.style.top = y + 'px';
+
+                  // document.body.appendChild(cuadro);
+
+                  // // append delay
+                  // setTimeout(function() {
+                  //     cuadro.className="display";
+                  // }, 100);
+              });
+
+      }
+
+      function hideSideBar(){
+
+        if (visibleSideBar == true){
+          document.getElementById("sideBar").style.display = 'none';
+          document.getElementById("map-canvas").style.width = '100%';
+          visibleSideBar = false;
+        }
+        else {
+          document.getElementById("sideBar").style.display = 'block';
+          document.getElementById("map-canvas").style.width = '80%';
+          visibleSideBar = true;
+        }
+
+        google.maps.event.trigger(map, "resize");
+
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+
+  </head>
+  <body>
+
+    <div class="navbar navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Maps Application</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav"> 
+              <form class="navbar-search pull-right">
+                <input type="text" class="search-query" placeholder="Search">
+              </form>
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="btn-group pull-right">
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" onClick="hideSideBar()">Barra <span class="caret"></span></button>
+            </div><!-- /btn-group -->
+        </div><!--/.nav-collapse -->
+      </div>  
+  </div>
+</div>
+
+    <div id="map-canvas">
+
+    </div>
+
+    <div id="sideBar">
+
+    </div>
+
+  </body>
+</html>
